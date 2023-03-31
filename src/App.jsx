@@ -4,25 +4,25 @@ function App() {
       
       <div class="row">
         <div class="col">
-          <h1>SHopping List</h1>
+          <p><h3>Shopping List</h3></p>
         </div>
       </div>
 
       <div class="row">
         <div class="col">
-          Element 1
+          <input type="checkbox" />
         </div>
         <div class="col">
-          Button
+          1 KG
         </div>
-      </div>
-
-      <div class="row">
-        <div class="col">
-          Element 2
+        <div class="col-5 col-md-3">
+          Tortillas
         </div>
-        <div class="col">
-          Button
+        <div class="col-2">
+          <div className="btn-group" role="group" aria-label="Large button group">
+            <button type="button" className="btn btn-outline-success"><i className="bi bi-pencil-square"></i></button>
+            <button type="button" className="btn btn-outline-danger"><i className="bi bi-trash2-fill"></i></button>
+          </div>
         </div>
       </div>
     </div>
