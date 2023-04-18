@@ -1,15 +1,24 @@
 import { useState } from "react"
 
 function App() {
-  const [checkboxValue, setCheckboxValue] = useState({chbox1:false});
+  const [listItems, setListItems] = useState([
+    {
+      id:"1",
+      name: "Tortillas",
+      quantity: 2,
+      unit: "Kg",
+      checked: false,
+    }
+  ]);
 
   const handleCheckboxChange = (e) => {
-    setCheckboxValue(
-      {
-        ...checkboxValue,
-        [e.target.name]: !checkboxValue[e.target.name]
+    const newList = listItems.map(item => {
+      if (item.id === e.target.name) {
+        item.checked = !item.checked;
       }
-    );
+      return item
+    })
+    setListItems(newList);
   }
 
   return (
@@ -33,25 +42,27 @@ function App() {
         <div className="col-1">
           <input
           type="checkbox"
-          name="chbox1"
+          name={listItems[0].id}
           onChange={(e) => handleCheckboxChange(e)}
-          checked={checkboxValue.chbox1} />
+          checked={listItems[0].checked} />
         </div>
         
         <div className="col text-start">
-          {checkboxValue.chbox1 ?
+          {
+            listItems[0].checked ?
             <s>
-              1 KG
-            </s> : '1 KG'
+              {`
+              ${listItems[0].quantity}
+              ${listItems[0].unit}`
+              }
+            </s> : `${listItems[0].quantity} ${listItems[0].unit}`
           }
         </div>
         
-        <div className="col-5 col-md-7 text-start">
-          { checkboxValue.chbox1 ?
-            <s>
-              Tortillas
-            </s> :'Tortillas'
-          }
+        <div
+        className="col-5 col-md-7 text-start"
+        style={{ textDecoration: listItems[0].checked && "line-through" }}>
+          {`${listItems[0].name}`}
         </div>
 
         <div className="col-2">
