@@ -1,4 +1,7 @@
 import { useState } from "react"
+import ListItem from "./components/ListItem";
+import NewListItemButton from "./components/NewListItemButton";
+import Swal from "sweetalert2";
 
 function App() {
   const [listItems, setListItems] = useState([
@@ -10,6 +13,52 @@ function App() {
       checked: false,
     }
   ]);
+
+  const handleNewListItemButtom = async () => {
+    const { value } = await Swal.fire({
+      title: "New Item information",
+      html: `<input 
+              tipe='text' 
+              id='name' 
+              name='name' 
+              class='swal2-input' 
+              placeholder='Item' 
+             />
+             <input 
+             tipe='text' 
+             id='quantity' 
+             name='quantity' 
+             class='swal2-input' 
+             placeholder='Qt' 
+            />
+            <input 
+              tipe='text' 
+              id='unit' 
+              name='unit' 
+              class='swal2-input' 
+              placeholder='unit' 
+             />`,
+      confirmButtonText: "Add item",
+      showCloseButton: true,
+      showCancelButton: true,
+      focusConfirm: false,
+      cancelButtonText: "Dismiss",
+      preConfirm: () => {
+        const name = Swal.getPopup().querySelector('#name').value;
+        const quantity = Swal.getPopup().querySelector('#quantity').value;
+        const unit = Swal.getPopup().querySelector('#unit').value
+        if (!name || !quantity || !unit) {
+          Swal.showValidationMessage('Please enter an item name');
+        }
+        return { name, quantity, unit };
+      },
+    })
+
+    setListItems([
+      ...listItems,
+      { id: (listItems.length + 1).toString(), ...value, checked: false }
+    ])
+  }
 
   const handleCheckboxChange = (e) => {
     const newList = listItems.map(item => {
@@ -28,53 +77,33 @@ function App() {
         <div className="col-2"></div>
         <div className="col">
           <h3>Shopping List</h3>
+          <br />
         </div>
 
         <div className="col-2 text-end">
-          <button type="button" className="btn btn-outline-primary">
-            <i class="bi bi-plus-circle"></i>
-          </button>
+          <NewListItemButton handleButton={handleNewListItemButtom} />
         </div>
       </div>
       <hr />
 
+      {
+        listItems.map((listItem) => (
+          <ListItem
+            id={listItem.id}
+            name={listItem.name}
+            quantity={listItem.quantity}
+            unit={listItem.unit}
+            checked={listItem.checked}
+            handleCheckboxChange={handleCheckboxChange}
+          />
+        ))
+      }
+      <hr />
       <div className="row">
-        <div className="col-1">
-          <input
-          type="checkbox"
-          name={listItems[0].id}
-          onChange={(e) => handleCheckboxChange(e)}
-          checked={listItems[0].checked} />
+        <div className="col text-end">
+          <NewListItemButton handleButton={handleNewListItemButtom} />
         </div>
-        
-        <div className="col text-start">
-          {
-            listItems[0].checked ?
-            <s>
-              {`
-              ${listItems[0].quantity}
-              ${listItems[0].unit}`
-              }
-            </s> : `${listItems[0].quantity} ${listItems[0].unit}`
-          }
-        </div>
-        
-        <div
-        className="col-5 col-md-7 text-start"
-        style={{ textDecoration: listItems[0].checked && "line-through" }}>
-          {`${listItems[0].name}`}
-        </div>
-
-        <div className="col-2">
-          <div className="btn-group" role="group" aria-label="Large button group">
-            <button type="button" className="btn btn-outline-success"><i class="bi bi-files"></i></button>
-            <button type="button" className="btn btn-outline-primary"><i class="bi bi-pencil-square"></i></button>
-            <button type="button" className="btn btn-outline-danger"><i class="bi bi-trash2-fill"></i></button>
-          </div>
-        </div>
-
       </div>
-
     </div>
   )
 }
