@@ -34,10 +34,7 @@ const ListItem = ({
                 <button className="btn btn-outline-success"><i className="bi bi-files"></i></button>
                 <button className="btn btn-outline-primary"><i className="bi bi-pencil-square"></i></button>
                 <button className="btn btn-outline-danger"><i className="bi bi-trash2-fill"></i></button>
-            </div>
-
-        </div>
-    )
-}
+            </div></div>
+    )}
 
 export default ListItem; 
