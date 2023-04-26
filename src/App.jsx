@@ -1,7 +1,8 @@
-import { useState } from "react"
+import { useState } from "react";
 import ListItem from "./components/ListItem";
 import NewListItemButton from "./components/NewListItemButton";
 import Swal from "sweetalert2";
+import ClearListButton from "./components/ClearListButton";
 
 function App() {
   const [listItems, setListItems] = useState([
@@ -54,6 +55,8 @@ function App() {
       },
     })
 
+    if (!value.name || !value.quantity || !value.unit) return
+
     setListItems([
       ...listItems,
       { id: (listItems.length + 1).toString(), ...value, checked: false }
@@ -71,7 +74,7 @@ function App() {
   }
 
   return (
-    <div class="container text-center">
+    <div className="container text-center">
       
       <div className="row">
         <div className="col-2"></div>
@@ -81,9 +84,9 @@ function App() {
         </div>
 
         <div className="col-2 text-end">
+          <ClearListButton setListItems={setListItems}/>
           <NewListItemButton handleButton={handleNewListItemButtom} />
-        </div>
-      </div>
+        </div></div>
       <hr />
 
       {
@@ -98,13 +101,13 @@ function App() {
           />
         ))
       }
+
       <hr />
       <div className="row">
         <div className="col text-end">
+          <ClearListButton setListItems={setListItems}/>
           <NewListItemButton handleButton={handleNewListItemButtom} />
-        </div>
-      </div>
-    </div>
+        </div></div></div>
   )
 }
 
